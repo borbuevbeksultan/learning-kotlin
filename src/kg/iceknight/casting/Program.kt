@@ -38,8 +38,24 @@ fun evalWithWhen(e: Expr) : Int =
         else -> throw IllegalArgumentException()
 }
 
+fun evalWithLoggin(e: Expr): Int =
+        when (e) {
+            is Num -> {
+                println(e.value)
+                e.value // result of block (last expression)
+            }
+
+            is Sum -> {
+                val result = evalWithLoggin(e.left) + eval(e.right)
+                println(result)
+                result // result of block (last expression)
+            }
+            else -> throw IllegalArgumentException()
+        }
+
 fun main(args: Array<String>) {
     println(eval(Sum(Num(5), Num(10))) + eval(Num(5))) //20
     println(evalModified(Sum(Num(5), Num(10))) + eval(Num(5))) //20
     println(evalWithWhen(Sum(Num(5), Num(10))) + eval(Num(5))) //20
+    println(evalWithLoggin(Sum(Num(5), Num(10))) + eval(Num(5))) //20
 }
