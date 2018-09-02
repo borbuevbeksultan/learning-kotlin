@@ -22,6 +22,24 @@ fun eval(e: Expr): Int {
 
 }
 
+fun evalModified(e: Expr): Int =
+        if (e is Num) {
+            e.value
+        } else if (e is Sum) {
+            eval(e.left) + eval(e.right)
+        } else {
+            throw IllegalArgumentException()
+        }
+
+fun evalWithWhen(e: Expr) : Int =
+    when (e) {
+        is Num -> e.value
+        is Sum -> eval(e.left) + eval(e.right)
+        else -> throw IllegalArgumentException()
+}
+
 fun main(args: Array<String>) {
-    println(eval(Sum(Num(5), Num(10))) + eval(Num(5)))
+    println(eval(Sum(Num(5), Num(10))) + eval(Num(5))) //20
+    println(evalModified(Sum(Num(5), Num(10))) + eval(Num(5))) //20
+    println(evalWithWhen(Sum(Num(5), Num(10))) + eval(Num(5))) //20
 }
